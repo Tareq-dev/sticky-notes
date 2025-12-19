@@ -3,8 +3,7 @@ import { RiAddCircleLine } from "react-icons/ri";
 import Notes from "./components/Notes";
 import { useEffect, useState } from "react";
 import logo from "../src/images/logo.png";
-// import ReactDOM from "react-dom/client";
-// import { axe } from "@axe-core/react";
+import toast, { Toaster } from "react-hot-toast";
 
 const getItem = () => {
   let notes = localStorage.getItem("notes");
@@ -26,6 +25,7 @@ function App() {
   const [subject, setSubject] = useState("");
   const [notesDetail, setNotesDetail] = useState("");
   const [searchNote, setSearchNote] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const onType = (editMeId, updatedKey, updatedValue) => {
     const updatedNotes = notes.map((note) => {
@@ -44,20 +44,42 @@ function App() {
     setNotes(updatedNotes);
     //set data according to type
   };
+
+  const formatDateTime = () => {
+    const now = new Date();
+
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const year = now.getFullYear();
+
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+
+    const ampm = hours >= 12 ? "pm" : "am";
+    hours = hours % 12 || 12; // 0 → 12
+
+    return `${hours}:${minutes} ${ampm} | ${day}.${month}.${year}  `;
+  };
+
   const addNewNotes = () => {
+    const hasEmptyTitle = notes.some((n) => !n.title | (n.title.trim() === ""));
+
+    if (hasEmptyTitle) {
+      toast.error("You have already an empty note!");
+      return;
+    }
     const newNote = {
       id: Date.now(),
       title: subject,
       description: notesDetail,
+      createdAt: formatDateTime(),
     };
 
     setNotes([newNote, ...notes]);
   };
-
+ 
   const deleteNote = (id) => {
-    console.log(id);
     const remaining = notes.filter((note) => note.id !== id);
-    console.log(remaining);
     remaining.splice(id, 1);
     localStorage.removeItem(id);
     localStorage.setItem("notes", JSON.stringify(remaining));
@@ -71,15 +93,17 @@ function App() {
 
   return (
     <div>
-      <header className="flex justify-center items-center py-4 px-8 rounded-b-2xl bg-sky-100">
-        <img className="w-10 h-10 " src={logo} alt="" />
-        <h1 className="text-xl font-semibold ml-4">Super Sticky Notes</h1>
+      <header className="flex justify-center items-center py-2 md:py-4 px-8 rounded-b-2xl bg-sky-100">
+        <img className="w-8 h-8 md:w-10 md:h-10 " src={logo} alt="" />
+        <h1 className="text-lg md:text-xl font-semibold ml-4">
+          Super Sticky Notes
+        </h1>
       </header>
       <div className="container mx-auto flex flex-col justify-center items-center px-4">
         <div className=" mt-10 mb-6 py-2 text-white rounded-lg bg-green-600 px-4">
           <button
             onClick={addNewNotes}
-            className="font-bold flex justify-center items-center text-xl"
+            className="font-bold cursor-pointer flex justify-center items-center text-xl"
           >
             New Notes
             <span className="ml-3">
@@ -90,7 +114,7 @@ function App() {
         <input
           onChange={(e) => setSearchNote(e.target.value)}
           placeholder="Type here to Search"
-          className="border-2 py-2 rounded-md shadow-md px-4 w-full max-w-xs block mb-8 outline-none placeholder:text-black"
+          className="border border-gray-500 py-2 rounded-md shadow-md px-4 w-full max-w-xs block mb-8 outline-none placeholder:text-gray-500"
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 justify-items-center font-sans">
           {notes
@@ -107,6 +131,7 @@ function App() {
             })
             ?.map((note) => (
               <Notes
+                className=""
                 note={note}
                 key={note.id}
                 deleteNote={deleteNote}
@@ -117,6 +142,7 @@ function App() {
             ))}
         </div>
       </div>
+      <Toaster />
     </div>
   );
 }
