@@ -129,7 +129,7 @@ function App() {
       "
             />
 
-            <button
+            {/* <button
               type="submit"
               className=" cursor-pointer
         absolute right-1 top-1/2 -translate-y-1/2
@@ -139,7 +139,7 @@ function App() {
       "
             >
               <HiOutlineSearch size={20} />
-            </button>
+            </button> */}
           </div>
         </form>
 
