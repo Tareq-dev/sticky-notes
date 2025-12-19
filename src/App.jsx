@@ -4,6 +4,7 @@ import Notes from "./components/Notes";
 import { useEffect, useState } from "react";
 import logo from "../src/images/logo.png";
 import toast, { Toaster } from "react-hot-toast";
+import { HiOutlineSearch } from "react-icons/hi";
 
 const getItem = () => {
   let notes = localStorage.getItem("notes");
@@ -25,8 +26,6 @@ function App() {
   const [subject, setSubject] = useState("");
   const [notesDetail, setNotesDetail] = useState("");
   const [searchNote, setSearchNote] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-
   const onType = (editMeId, updatedKey, updatedValue) => {
     const updatedNotes = notes.map((note) => {
       if (note.id !== editMeId) {
@@ -77,7 +76,7 @@ function App() {
 
     setNotes([newNote, ...notes]);
   };
- 
+
   const deleteNote = (id) => {
     const remaining = notes.filter((note) => note.id !== id);
     remaining.splice(id, 1);
@@ -111,11 +110,39 @@ function App() {
             </span>
           </button>
         </div>
-        <input
-          onChange={(e) => setSearchNote(e.target.value)}
-          placeholder="Type here to Search"
-          className="border border-gray-500 py-2 rounded-md shadow-md px-4 w-full max-w-xs block mb-8 outline-none placeholder:text-gray-500"
-        />
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="flex items-center w-full max-w-sm mb-8"
+        >
+          <div className="relative w-full">
+            <input
+              type="text"
+              onChange={(e) => setSearchNote(e.target.value)}
+              placeholder="Search notes..."
+              className="
+        w-full py-2 pl-4 pr-12
+        border border-gray-400 rounded-md
+        shadow-sm outline-none
+        focus:ring-1 focus:ring-sky-400
+        focus:border-sky-400
+        placeholder:text-gray-500
+      "
+            />
+
+            <button
+              type="submit"
+              className=" cursor-pointer
+        absolute right-1 top-1/2 -translate-y-1/2
+        bg-red-200 hover:bg-red-300 font-bold
+         rounded-md
+        w-14 h-9 flex items-center justify-center
+      "
+            >
+              <HiOutlineSearch size={20} />
+            </button>
+          </div>
+        </form>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-5 justify-items-center font-sans">
           {notes
             ?.filter((value) => {

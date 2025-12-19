@@ -33,11 +33,11 @@ function Notes({ deleteNote, note, onType: onTypeNote }) {
         isDeleting ? "scale-out-center" : ""
       }`}
     >
-      <div className="flex justify-between  items-center bg-sky-100 rounded-t-lg">
+      <div className="flex justify-between  items-center md:p-1 bg-sky-100 rounded-t-lg">
         <input
           type="text"
-          placeholder="Title"
-          className="py-4 md:py-2  px-4 placeholder:text-gray-600 font-semibold text-sm bg-sky-100 max-w-xs w-full  outline-none "
+          placeholder="Short Title"
+          className="py-4 md:py-2 placeholder:italic px-4 placeholder:text-gray-600 font-semibold text-sm bg-sky-100 max-w-xs w-full  outline-none "
           value={note?.title}
           onChange={updateTitle}
         />
@@ -50,8 +50,8 @@ function Notes({ deleteNote, note, onType: onTypeNote }) {
             size={24}
             className={
               note?.title === "" && note?.description === ""
-                ? "mr-2 hidden bg-red-500 text-white rounded-full p-1 w-8 h-8"
-                : "mr-2 bg-red-500 text-white rounded-full p-1 w-8 h-8"
+                ? "mr-2 hidden bg-red-500 text-white rounded-full p-1.5 w-8 h-8"
+                : "mr-2 bg-red-500 text-white rounded-full p-1.5 w-8 h-8"
             }
           />
         </button>
@@ -65,7 +65,7 @@ function Notes({ deleteNote, note, onType: onTypeNote }) {
           value={note?.description}
           onChange={updateDescription}
           placeholder="Type notes here..."
-          className="py-2 px-4 w-100 md:w-80 h-30  rounded-b-lg outline-none placeholder:text-gray-600 resize-none"
+          className="py-2 px-4 placeholder:italic w-100 md:w-80 h-30  rounded-b-lg outline-none placeholder:text-gray-600 resize-none"
         />
       </div>
     </div>
