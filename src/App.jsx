@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { RiAddCircleLine } from "react-icons/ri";
 import Notes from "./components/Notes";
@@ -28,7 +27,6 @@ function App() {
   const [notesDetail, setNotesDetail] = useState("");
   const [searchNote, setSearchNote] = useState("");
 
-
   const onType = (editMeId, updatedKey, updatedValue) => {
     const updatedNotes = notes.map((note) => {
       if (note.id !== editMeId) {
@@ -57,7 +55,9 @@ function App() {
   };
 
   const deleteNote = (id) => {
+    console.log(id);
     const remaining = notes.filter((note) => note.id !== id);
+    console.log(remaining);
     remaining.splice(id, 1);
     localStorage.removeItem(id);
     localStorage.setItem("notes", JSON.stringify(remaining));

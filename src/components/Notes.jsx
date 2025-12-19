@@ -2,7 +2,6 @@ import React from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 function Notes({ deleteNote, note, onType: onTypeNote }) {
-  
   const updateTitle = (e) => {
     const updatedValue = e.target.value;
     const editMeId = note.id;
@@ -25,7 +24,7 @@ function Notes({ deleteNote, note, onType: onTypeNote }) {
           value={note?.title}
           onChange={updateTitle}
         />
-        <button aria-label="Name" onClick={ deleteNote}>
+        <button aria-label="Name" onClick={() => deleteNote(note?.id)}>
           <RiDeleteBin6Line
             size={24}
             className={
